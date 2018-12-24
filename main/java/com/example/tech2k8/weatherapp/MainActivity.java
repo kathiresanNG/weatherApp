@@ -1,5 +1,7 @@
 package com.example.tech2k8.weatherapp;
 
+import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadNextBtn=findViewById(R.id.load_next);
+        Intent serviceIntent =new Intent(MainActivity.this,TestIntentService.class);
+
+
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)
+        {
+            startForegroundService(serviceIntent);
+        }
+        else{
+            startService(serviceIntent);
+            stopService(serviceIntent);
+        }
         loadNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
     }
 
     @Override
